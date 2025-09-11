@@ -1,4 +1,4 @@
-package com.sagarvarule.support;
+package com.sagarvarule.springconfig;
 
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;

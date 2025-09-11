@@ -1,23 +1,33 @@
 package com.sagarvarule.stepdefinitions;
 
+import org.assertj.core.api.Assertions;
+import org.springframework.util.Assert;
+
 import com.sagarvarule.services.GETDestinations;
-import io.cucumber.java.PendingException;
+import com.sagarvarule.support.ScenarioContext;
+
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DestinationStepDefinitions {
-    @Autowired
-    GETDestinations getDestinations;
+    private GETDestinations getDestinations;
+    private ScenarioContext scenarioContext;
+
+    public DestinationStepDefinitions(GETDestinations getDestinations, ScenarioContext scenarioContext){
+        this.getDestinations = getDestinations;
+        this.scenarioContext = scenarioContext;
+    }
+
     @When("user execute destination endpoint")
     public void userExecuteDestinationEndpoint() {
-        System.out.println(":::::::::::::::::::::::::::::::::---------------------------------------");
-        System.out.println(getDestinations.getResponse());
+       scenarioContext.setResponseCode(getDestinations.getResponse());
 
     }
 
     @Then("response code is {int}")
-    public void responseCodeIs(int arg0) {
-
+    public void responseCodeIs(int code) {
+        assertTrue(scenarioContext.getResponseCode().equals(Integer.toString(code)));
     }
 }
