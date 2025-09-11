@@ -1,4 +1,6 @@
 /home/sagarv/Projects/cucumber-spring-sv/api/src/test/java/com/sagarvarule/TestBootApplication.java
 /home/sagarv/Projects/cucumber-spring-sv/api/src/test/java/com/sagarvarule/runner/RunCucumberTest.java
+/home/sagarv/Projects/cucumber-spring-sv/api/src/test/java/com/sagarvarule/services/GETDestinations.java
+/home/sagarv/Projects/cucumber-spring-sv/api/src/test/java/com/sagarvarule/stepdefinitions/DestinationStepDefinitions.java
 /home/sagarv/Projects/cucumber-spring-sv/api/src/test/java/com/sagarvarule/stepdefinitions/MyStepdefs.java
 /home/sagarv/Projects/cucumber-spring-sv/api/src/test/java/com/sagarvarule/support/CucumberSpringConfig.java
