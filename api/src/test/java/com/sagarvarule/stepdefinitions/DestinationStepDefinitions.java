@@ -1,11 +1,5 @@
 package com.sagarvarule.stepdefinitions;
 
-import org.assertj.core.api.Assertions;
-import org.springframework.util.Assert;
-
-import com.sagarvarule.services.GETDestinations;
-import com.sagarvarule.support.ApiTestRunProperties;
-import com.sagarvarule.support.ScenarioContext;
 import com.sagarvarule.support.TestInfra;
 
 import io.cucumber.java.en.Then;
@@ -21,7 +15,6 @@ public class DestinationStepDefinitions {
     @When("user execute destination endpoint")
     public void userExecuteDestinationEndpoint() {
         testInfra.scenarioContext().setResponseCode(testInfra.endpointDestinations().getResponse());
-       
 
     }
 
