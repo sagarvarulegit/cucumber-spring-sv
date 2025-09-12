@@ -3,6 +3,8 @@ package com.sagarvarule.support;
 import org.springframework.stereotype.Component;
 
 import io.cucumber.spring.ScenarioScope;
+import io.restassured.response.Response;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +13,7 @@ import java.util.Map;
 public class ScenarioContext {
 
     private String responseCode;
+    private Response response;
 
     private final Map<String, Object> data = new HashMap<>();
 
@@ -45,5 +48,13 @@ public class ScenarioContext {
 
     public void clear() {
         data.clear();
+    }
+
+    public Response getResponse() {
+        return response;
+    }
+
+    public void setResponse(Response response) {
+        this.response = response;
     }
 }
