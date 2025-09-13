@@ -3,19 +3,26 @@ package com.sagarvarule.services;
 import org.springframework.stereotype.Component;
 
 import com.sagarvarule.http.RestClient;
+import com.sagarvarule.models.DestinationResponse;
 
 import io.restassured.response.Response;
 
 @Component
-public class GETDestinations {
+public class GETDestinations extends BaseGetService<DestinationResponse> {
     private static final String PATH = "/api/destination";
-    private final RestClient rest;
 
-    public GETDestinations(RestClient rest) {
-        this.rest = rest;
+    public GETDestinations(RestClient restClient) {
+        super(restClient);
     }
-
-    public Response getResponse() {
-        return rest.get(PATH);
+    
+    @Override
+    public String getPath() {
+        return PATH;
     }
+    
+    @Override
+    protected DestinationResponse processResponse(Response response) {
+        return new DestinationResponse(response);
+    }
+    
 }
