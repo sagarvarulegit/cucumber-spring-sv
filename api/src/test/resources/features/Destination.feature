@@ -6,12 +6,14 @@ Feature: Hotel Search Application - Destinations API
   Background:
     Given the destination API endpoint is available
 
+  @CRM-14
   Scenario: Successfully retrieve list of destinations
     When I call the destination endpoint
     Then I should receive a successful response with status code 200
     And the response should contain a list of destinations in JSON format
     And the destinations list should not be empty
 
+  @CRM-15
   Scenario: Verify predefined destinations are included
     When I call the destination endpoint
     Then I should receive a successful response with status code 200
@@ -27,12 +29,14 @@ Feature: Hotel Search Application - Destinations API
       | Barcelona  |
       | Istanbul   |
 
+  @CRM-16
   Scenario: Validate destination endpoint accessibility
     When I call the destination endpoint
     Then the endpoint should be publicly accessible
     And I should receive a successful response with status code 200
     And the response content type should be JSON
 
+  @CRM-17
   Scenario: Verify minimum required destinations count
     When I call the destination endpoint
     Then I should receive a successful response with status code 200
