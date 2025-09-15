@@ -12,5 +12,9 @@ public record MobileTestRunProperties(
     int implicitWaitSeconds,
     boolean autoGrantPermissions,
     int newCommandTimeout,
-    int sessionTimeout
+    int sessionTimeout,
+    String browserstackApp,
+    String browserstackUsername,
+    String browserstackAccessKey,
+    boolean useBrowserstack
 ){}
