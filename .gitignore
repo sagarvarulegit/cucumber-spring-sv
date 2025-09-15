@@ -28,3 +28,6 @@ replay_pid*
 
 #target folder
 target/
+
+# APK files (large binary files)
+*.apk
