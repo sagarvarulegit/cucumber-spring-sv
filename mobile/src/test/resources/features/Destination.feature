@@ -1,8 +1,8 @@
 Feature: Destination Screen provides option to select Destination and DateRange
 
- # Scenario: WhereTo and When fields are displayed
-  #  Given user is at destination screen
-   # Then user should see whereTo and when fields
+  Scenario: WhereTo and When fields are displayed
+    Given user is at destination screen
+    Then user should see whereTo and when fields
 
   @AI
   Scenario: AI Visual Test for screen "Find your Stay"
@@ -17,4 +17,9 @@ Feature: Destination Screen provides option to select Destination and DateRange
       | "Search Hotels" card   |
       | "Where to?" field      |
       | "When" field           |
-      | XYZ textbox            |
+
+  @AI
+  Scenario: AI Visual Test for screen "Find your Stay" - Demo: Capture Issues
+    Given user is at destination screen
+    Then user should see following elements:
+      | XYZ textbox |

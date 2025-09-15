@@ -21,7 +21,7 @@ public class AIUtil {
     
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public static String getResponse(String base64Image, String prompt) {
+    public static AIResponse getResponse(String base64Image, String prompt) {
         try {
             // Construct JSON payload for Gemini API
             String jsonPayload = buildGeminiPayload(base64Image, prompt);
@@ -44,7 +44,8 @@ public class AIUtil {
             }
             
             // Parse response and extract text
-            return parseGeminiResponse(response.body());
+            String fullResponse = parseGeminiResponse(response.body());
+            return new AIResponse(fullResponse);
             
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Failed to call Gemini API: " + e.getMessage(), e);

@@ -41,8 +41,16 @@ public class DestinationStepDefinitions {
         String elements = String.join(", ", dt.asList());
         String prompt = Prompts.VERIFY_SCREENSHOT_PROMPT.replace("{elements}", elements);
         String base64Screenshot = ScreenShotUtil.getScreenShot(infra.driverManager());
-        String message = AIUtil.getResponse(base64Screenshot, prompt);
-        assertTrue(message.equals("Yes"), "Elements are not visible: " + elements);
+        
+        // Get AI response with detailed failure information
+        com.sagarvarule.utils.AIResponse aiResponse = AIUtil.getResponse(base64Screenshot, prompt);
+        
+        // Log the AI response for debugging
+        System.out.println("AI Visual Test Response: " + aiResponse.getFullResponse());
+        
+        // Assert with detailed failure message including AI analysis
+        assertTrue(aiResponse.isSuccess(), aiResponse.getFailureMessage(elements));
+        
         infra.context().setTestPassed(true);
         infra.context().setLastAction("Verified elements are visible: " + elements);
     }
