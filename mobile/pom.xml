@@ -50,4 +50,39 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Maven Surefire Plugin for parallel test execution -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <!-- Enable parallel execution -->
+                    <parallel>methods</parallel>
+                    <threadCount>3</threadCount>
+                    <perCoreThreadCount>true</perCoreThreadCount>
+                    <useUnlimitedThreads>false</useUnlimitedThreads>
+                    
+                    <!-- Cucumber specific configuration -->
+                    <properties>
+                        <configurationParameters>
+                            cucumber.execution.parallel.enabled=true
+                            cucumber.execution.parallel.mode.default=concurrent
+                            cucumber.execution.parallel.mode.features=concurrent
+                            cucumber.execution.parallel.config.strategy=dynamic
+                            cucumber.execution.parallel.config.custom.class=com.sagarvarule.parallel.CustomParallelStrategy
+                        </configurationParameters>
+                    </properties>
+                    
+                    <!-- System properties for parallel execution -->
+                    <systemPropertyVariables>
+                        <cucumber.execution.parallel.enabled>true</cucumber.execution.parallel.enabled>
+                        <cucumber.execution.parallel.config.strategy>dynamic</cucumber.execution.parallel.config.strategy>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

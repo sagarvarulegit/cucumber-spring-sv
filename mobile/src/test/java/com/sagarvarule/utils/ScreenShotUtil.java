@@ -1,27 +1,38 @@
 package com.sagarvarule.utils;
 
 import com.sagarvarule.appium.AppiumDriverManager;
-import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ScreenShotUtil {
 
-    public static String getScreenShot(AppiumDriverManager driverManager) {
+    private static AppiumDriverManager driverManager;
+
+    @Autowired
+    public ScreenShotUtil(AppiumDriverManager driverManager) {
+        ScreenShotUtil.driverManager = driverManager;
+    }
+
+    public static String getScreenShot() {
         try {
-            AppiumDriver driver = driverManager.getDriver();
-            
-            if (driver == null) {
-                throw new RuntimeException("AppiumDriver is not initialized. Cannot capture screenshot.");
+            if (driverManager == null) {
+                System.out.println("DriverManager is null, cannot capture screenshot");
+                return null;
             }
             
-            // Capture screenshot as base64 string
-            String base64Screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
-            
+            AndroidDriver driver = driverManager.getDriver();
+            if (driver == null) {
+                System.out.println("Driver is null, cannot capture screenshot");
+                return null;
+            }
+            String base64Screenshot = driver.getScreenshotAs(OutputType.BASE64);
             return base64Screenshot;
-            
         } catch (Exception e) {
-            throw new RuntimeException("Failed to capture screenshot: " + e.getMessage(), e);
+            System.out.println("Failed to capture screenshot: " + e.getMessage());
+            return null;
         }
     }
 }

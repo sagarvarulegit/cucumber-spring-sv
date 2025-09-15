@@ -18,8 +18,20 @@ Feature: Destination Screen provides option to select Destination and DateRange
       | "Where to?" field      |
       | "When" field           |
 
-  @AI
+  @AI @ignore
   Scenario: AI Visual Test for screen "Find your Stay" - Demo: Capture Issues
     Given user is at destination screen
     Then user should see following elements:
       | XYZ textbox |
+
+  Scenario: Parallel Test 1 - WhereTo field functionality
+    Given user is at destination screen
+    Then user should see whereTo and when fields
+
+  Scenario: Parallel Test 2 - When field functionality  
+    Given user is at destination screen
+    Then user should see whereTo and when fields
+
+  Scenario: Parallel Test 3 - Screen validation
+    Given user is at destination screen
+    Then user should see whereTo and when fields

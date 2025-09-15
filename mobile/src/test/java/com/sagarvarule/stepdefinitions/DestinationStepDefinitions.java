@@ -40,7 +40,7 @@ public class DestinationStepDefinitions {
         //Get Screenshot
         String elements = String.join(", ", dt.asList());
         String prompt = Prompts.VERIFY_SCREENSHOT_PROMPT.replace("{elements}", elements);
-        String base64Screenshot = ScreenShotUtil.getScreenShot(infra.driverManager());
+        String base64Screenshot = ScreenShotUtil.getScreenShot();
         
         // Get AI response with detailed failure information
         com.sagarvarule.utils.AIResponse aiResponse = AIUtil.getResponse(base64Screenshot, prompt);
