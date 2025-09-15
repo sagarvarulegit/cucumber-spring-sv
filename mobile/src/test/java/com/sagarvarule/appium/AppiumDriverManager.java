@@ -13,21 +13,23 @@ import java.time.Duration;
 
 @Component
 public class AppiumDriverManager {
-    private final MobileTestRunProperties props;
-    private AndroidDriver driver;
+    protected final MobileTestRunProperties props;
+    private static final ThreadLocal<AndroidDriver> driverThreadLocal = new ThreadLocal<>();
 
     public AppiumDriverManager(MobileTestRunProperties props) {
         this.props = props;
     }
 
     public AndroidDriver getDriver() {
+        AndroidDriver driver = driverThreadLocal.get();
         if (driver == null) {
             driver = createDriver();
+            driverThreadLocal.set(driver);
         }
         return driver;
     }
 
-    private AndroidDriver createDriver() {
+    protected AndroidDriver createDriver() {
         try {
             System.out.println("=== Driver Creation Debug Info ===");
             System.out.println("useBrowserstack: " + props.useBrowserstack());
@@ -69,13 +71,20 @@ public class AppiumDriverManager {
     private DesiredCapabilities createBrowserStackCapabilities() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         
-        // BrowserStack specific capabilities
+        // Get device configuration for parallel execution
+        com.sagarvarule.parallel.DeviceConfiguration deviceConfig = 
+            com.sagarvarule.parallel.DeviceConfiguration.getDeviceForThread();
+        
+        String threadName = Thread.currentThread().getName();
+        System.out.println("Thread: " + threadName + " using device: " + deviceConfig.getDeviceName());
+        
+        // BrowserStack specific capabilities with parallel device configuration
         capabilities.setCapability("app", props.browserstackApp());
-        capabilities.setCapability("deviceName", props.deviceName());
-        capabilities.setCapability("os_version", props.platformVersion());
-        capabilities.setCapability("project", "Cucumber Spring Mobile Tests");
-        capabilities.setCapability("build", "Build_" + System.currentTimeMillis());
-        capabilities.setCapability("name", "Mobile Test Session");
+        capabilities.setCapability("deviceName", deviceConfig.getBrowserstackDevice());
+        capabilities.setCapability("os_version", deviceConfig.getOsVersion());
+        capabilities.setCapability("project", "Cucumber Spring Mobile Tests - Parallel");
+        capabilities.setCapability("build", "Parallel_Build_" + System.currentTimeMillis());
+        capabilities.setCapability("name", "Parallel Test - " + deviceConfig.getDeviceName() + " - " + threadName);
         
         // Common capabilities
         capabilities.setCapability("platformName", props.platformName());
@@ -96,7 +105,7 @@ public class AppiumDriverManager {
         return capabilities;
     }
     
-    private DesiredCapabilities createLocalCapabilities() throws Exception {
+    protected DesiredCapabilities createLocalCapabilities() throws Exception {
         // Check if we have a valid APK file for local execution
         String apkPath = findApkFile();
         File apkFile = new File(apkPath);
@@ -119,7 +128,7 @@ public class AppiumDriverManager {
         return capabilities;
     }
     
-    private URL createBrowserStackUrl() throws Exception {
+    protected URL createBrowserStackUrl() throws Exception {
         String username = props.browserstackUsername();
         String accessKey = props.browserstackAccessKey();
         
@@ -132,7 +141,7 @@ public class AppiumDriverManager {
         return URI.create(browserstackUrl).toURL();
     }
 
-    private AndroidDriver createMockDriver() {
+    protected AndroidDriver createMockDriver() {
         // Create a mock driver that extends AndroidDriver for framework testing
         System.out.println("Creating mock AndroidDriver for framework testing...");
         
@@ -189,9 +198,10 @@ public class AppiumDriverManager {
     }
 
     public void quitDriver() {
+        AndroidDriver driver = driverThreadLocal.get();
         if (driver != null) {
             driver.quit();
-            driver = null;
+            driverThreadLocal.remove();
         }
     }
 }
