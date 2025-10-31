@@ -31,3 +31,11 @@ target/
 
 # APK files (large binary files)
 *.apk
+
+# Virtual Environment for Locust performance tests
+api/performance-tests/locust/venv/
+
+# Ignore Python bytecode
+__pycache__/
+*.pyc
+api/performance-tests/locust/__pycache__/
