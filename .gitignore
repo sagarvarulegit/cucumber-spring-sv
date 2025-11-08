@@ -26,6 +26,8 @@ replay_pid*
 #vscode files
 .vscode/
 .github/copilot-instructions.md
+#intelliJ files
+.idea/
 
 #target folder
 target/
