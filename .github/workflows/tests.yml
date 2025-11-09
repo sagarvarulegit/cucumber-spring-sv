@@ -1,0 +1,52 @@
+name: API and Web Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    name: Run ${{ matrix.display-name }} tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - display-name: API
+            module: api
+            artifact-name: api-test-reports
+            maven-args: ""
+          - display-name: Web
+            module: web
+            artifact-name: web-test-reports
+            maven-args: "-Dwebtestrun.headless=true"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Run ${{ matrix.display-name }} tests
+        run: mvn -B test ${{ matrix.maven-args }}
+        working-directory: ${{ matrix.module }}
+
+      - name: Upload ${{ matrix.display-name }} test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact-name }}
+          path: |
+            ${{ matrix.module }}/target/cucumber-report.html
+            ${{ matrix.module }}/target/cucumber-report.json
+            ${{ matrix.module }}/target/cucumber-reports/**
+            ${{ matrix.module }}/target/surefire-reports/**
+          if-no-files-found: ignore
