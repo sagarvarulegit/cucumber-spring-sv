@@ -393,6 +393,7 @@ locust -f locustfile.py --loglevel DEBUG
 - **Cucumber Documentation**: [https://cucumber.io/docs](https://cucumber.io/docs)
 - **Spring Boot Testing**: [https://spring.io/guides/gs/testing-web/](https://spring.io/guides/gs/testing-web/)
 
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+##TODO
+- Schema Validation
+- touch interaction
+- 
